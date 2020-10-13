@@ -14,6 +14,7 @@ import { RegConfirmationComponent } from './signup/reg-confirmation/reg-confirma
 import { UserService } from './service/user.service';
 import { TokenInterceptor } from './interceptor/TokenInterceptor';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
+import { ProfileComponent } from './profile/profile.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -63,7 +64,8 @@ const customNotifierOptions: NotifierOptions = {
     LoginComponent,
     HomeComponent,
     SignupComponent,
-    RegConfirmationComponent
+    RegConfirmationComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

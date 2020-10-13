@@ -20,6 +20,15 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+
+    @GetMapping
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> getAllUsers(){
+
+        return new ResponseEntity<>(this.userService.getAllUsers(), HttpStatus.OK);
+    }
+
+
     @GetMapping(value = "/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<?> getUser(@PathVariable("id") Long id){
@@ -29,9 +38,16 @@ public class UserController {
 
     @GetMapping("/currentUser")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> user() {
+    public ResponseEntity<?> getCurrentuser() {
 
         return new ResponseEntity<>(this.userService.getCurrentUser(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id){
+
+        return new ResponseEntity<>(this.userService.deleteUser(id), HttpStatus.OK);
     }
 
 }

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -82,5 +83,31 @@ public class UserServiceImpl implements UserService {
     @Override
     public User update(User user) {
         return this.userRepository.save(user);
+    }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+
+        List<User> users = this.userRepository.findAll();
+        return users.stream()
+                .map(user -> mapper.map(user, UserDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDTO deleteUser(Long id) {
+
+        if(id <= 0){
+            throw new BadRequestException("User id can't be equal or less than 0.");
+        }
+
+        User user = this.userRepository.findById(id).orElse(null);
+        if(user == null){
+            throw new NotFoundException("User with id " + id + " doesn't exist.");
+        }
+
+        user.setDeleted(true);
+        this.userRepository.save(user);
+        return mapper.map(user, UserDTO.class);
     }
 }
