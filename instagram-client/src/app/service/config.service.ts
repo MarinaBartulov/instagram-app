@@ -10,6 +10,8 @@ export class ConfigService {
     private _login_url = this._auth_url + '/login';
     private _signup_url = this._auth_url + '/signup';
     private _currentUser_url = this._server_url + '/user/currentUser';
+    private _confirmationReg_url = this._auth_url + '/confirmRegistration';
+
 
 
     get server_url():string{
@@ -26,6 +28,10 @@ export class ConfigService {
 
     get currentUser_url(): string {
       return this._currentUser_url;
+    }
+
+    get confirmationReg_url(): string {
+      return this._confirmationReg_url;
     }
 
    

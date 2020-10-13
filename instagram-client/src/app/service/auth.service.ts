@@ -65,8 +65,6 @@ export class AuthService implements OnInit{
           }));
     }
 
-    
-
     tokenIsPresent() {
       let token = localStorage.getItem('access_token'); 
       return token != 'null' && token != undefined;
@@ -76,4 +74,11 @@ export class AuthService implements OnInit{
       return localStorage.getItem('access_token');
     }
 
+    confirmRegistration(token) {
+      return this._apiService.get(this._config.confirmationReg_url + "/" + token)
+        .pipe(map((res) => {
+             console.log(res);
+        }));
     }
+
+}

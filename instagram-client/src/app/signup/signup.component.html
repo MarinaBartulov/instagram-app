@@ -18,7 +18,7 @@
         <button type="submit" class="btn btn-primary" style="width:100%" [disabled]="!userForm.form.valid">Sign up</button>
         <hr/>
     </form> 
-    <p class="text-center" *ngIf="showError" style="color:red">Error.</p>
+    <p class="text-center" *ngIf="showError" style="color:red">{{messageError}}</p>
   </div>
   <div class="card ml-auto mr-auto" style="width:23em;margin-top:1%;">
     <p class="m-auto p-2">Have an account?<a [routerLink]="['/login']" class="text-center mb-3"> Log in </a></p>

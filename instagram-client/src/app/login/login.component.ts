@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginUser } from '../model/LoginUser';
 import { AuthService } from '../service/auth.service';
+import { UserService } from '../service/user.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { AuthService } from '../service/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private _router: Router, private _authService: AuthService) { }
+  constructor(private _router: Router, private _authService: AuthService, private _userService: UserService) { }
 
   loginUser: LoginUser;
   showError: boolean;
@@ -24,7 +25,10 @@ export class LoginComponent implements OnInit {
       console.log(this.loginUser)
       this._authService.login(this.loginUser).subscribe(
         data => {
-            this._router.navigate(['/home']);
+          this._userService.getMyInfo().subscribe(user => {
+              this._router.navigate(['/home']);
+          });
+           
         },
         error => {
           this.showError = true;
