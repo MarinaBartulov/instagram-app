@@ -3,6 +3,7 @@ package com.itengine.instagram.controller;
 import com.itengine.instagram.dto.UserRequest;
 import com.itengine.instagram.dto.UserTokenState;
 import com.itengine.instagram.model.User;
+import com.itengine.instagram.model.VerificationToken;
 import com.itengine.instagram.security.TokenUtils;
 import com.itengine.instagram.security.auth.JwtAuthenticationRequest;
 import com.itengine.instagram.service.AuthService;
@@ -18,6 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -60,14 +62,16 @@ public class AuthController {
     }
 
     @PostMapping(value = "/signup")
-    public ResponseEntity<?> signUp(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<?> signUp(@RequestBody UserRequest userRequest) throws MessagingException, InterruptedException {
+        System.out.println("Registracija");
+        return new ResponseEntity(this.authService.singUp(userRequest), HttpStatus.CREATED);
 
-        User user = this.authService.singUp(userRequest);
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This username already exists.");
-        }else{
-            return new ResponseEntity<User>(user, HttpStatus.CREATED);
-        }
+    }
+
+    @RequestMapping(value = "/confirmRegistration/{token}", method = RequestMethod.GET)
+    public ResponseEntity<?> confirmRegistration(@PathVariable("token") String token) {
+
+        return new ResponseEntity(this.authService.confirmRegistration(token), HttpStatus.OK);
     }
 
 }

@@ -1,13 +1,19 @@
 package com.itengine.instagram.service.impl;
 
+import com.itengine.instagram.dto.UserDTO;
 import com.itengine.instagram.dto.UserRequest;
+import com.itengine.instagram.exception.BadRequestException;
+import com.itengine.instagram.exception.NotFoundException;
 import com.itengine.instagram.model.Authority;
 import com.itengine.instagram.model.User;
 import com.itengine.instagram.repository.AuthorityRepository;
 import com.itengine.instagram.repository.UserRepository;
 import com.itengine.instagram.service.AuthorityService;
 import com.itengine.instagram.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +34,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AuthorityService authorityService;
 
+    @Autowired
+    private ModelMapper mapper;
+
     @Override
     public User findByUsername(String username) {
         return this.userRepository.findByUsername(username);
@@ -47,6 +56,31 @@ public class UserServiceImpl implements UserService {
                 .active(true)
                 .build();
 
+        return this.userRepository.save(user);
+    }
+
+    @Override
+    public UserDTO getCurrentUser() {
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String username = currentUser.getName();
+        User user = this.userRepository.findByUsername(username);
+        return this.mapper.map(user, UserDTO.class);
+    }
+
+    @Override
+    public UserDTO findUser(Long id) {
+        if(id <= 0)
+            throw new BadRequestException("Id can't be equal or less than 0.");
+        User user = this.userRepository.findById(id).orElse(null);
+        if(user == null){
+            throw new NotFoundException("User with id " + id + " not found.");
+        }
+        return this.mapper.map(user, UserDTO.class);
+
+    }
+
+    @Override
+    public User update(User user) {
         return this.userRepository.save(user);
     }
 }
