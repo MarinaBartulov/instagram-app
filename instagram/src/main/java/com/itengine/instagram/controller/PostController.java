@@ -26,6 +26,12 @@ public class PostController {
         return new ResponseEntity(this.postService.getPost(id), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/details")
+    private ResponseEntity<?> getPostDetails(@PathVariable Long id){
+
+        return new ResponseEntity(this.postService.getPostDetails(id), HttpStatus.OK);
+    }
+
 
     @GetMapping(value="/user/{id}")
     //@PreAuthorize("hasRole('ROLE_USER')")
@@ -52,6 +58,13 @@ public class PostController {
     private ResponseEntity<?> deletePost(@PathVariable("id") Long id){
 
         return new ResponseEntity(this.postService.deletePost(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value="/feed")
+    //@PreAuthorize("hasRole('ROLE_USER')")
+    private ResponseEntity<?> getUserPostsFeed(){
+
+        return new ResponseEntity(this.postService.getUserPostsFeed(), HttpStatus.OK);
     }
 
 

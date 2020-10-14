@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <nav class="navbar navbar-light bg-white">
+        <a class="navbar-brand" href="/home">
+            <i style="font-size:1.3em;color:black;padding-left:15em;"> Instagram</i>
+        </a> 
+        <div class="pull-right">
+            
+            <ul class="nav navbar-nav-horizontal">
+              <li><button type="button" class="btn navbar-btn btn-dark" name="search" id="search"  value="Search users" (click)="goToSearchUsers()"><b>Search users</b></button></li>
+                <li><button type="button" class="btn navbar-btn btn-dark ml-2" name="logout" id="logout"  value="Profile" (click)="goToProfile()"><b>Profile</b></button></li>
+                <li><button type="button" class="btn navbar-btn btn-dark ml-2" name="logout" id="logout"  value="Log Out" (click)="logout()"><b>Log Out</b></button></li>
+            </ul>     
+    </div> 
+    </nav>
+    <div>
+        <form class="mr-auto ml-auto mt-3" style="width:30%" (ngSubmit) = "searchUsers()" #searchForm="ngForm">
+            <div class="form-group">
+              <input type="text" [(ngModel)]='username'  class="form-control" id="username" name="username" aria-describedby="usernameHelp" placeholder="Username" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%" [disabled]="!searchForm.form.valid">Search</button>
+            <hr/>
+        </form>
+        <table class="table" style="width:50%;margin:auto;margin-top: 1em;">
+            <thead style="background-color:rgb(30, 144, 252);">
+              <tr>
+                <th style="text-align: center;" scope="col">#</th>
+                <th style="text-align: center;" scope="col">Username</th>
+                <th style="text-align: center;" scope="col">Name</th>
+                <th style="text-align: center;" scope="col">Follow/Unfollow</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let fu of foundUsers;let i = index">
+                <th  style="background-color: rgb(30, 144, 252);text-align: center;" scope="row">{{i+1}}</th>
+                <td style="background-color: white;text-align: center;">{{fu.username}}</td>
+                <td style="background-color: white;text-align: center;">{{fu.name}}</td> 
+                <td style="background-color: white;text-align: center;"><button class="btn btn-warning" (click)="follow(fu.id)">Follow</button></td>                                   
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>

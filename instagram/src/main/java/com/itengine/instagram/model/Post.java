@@ -31,6 +31,9 @@ public class Post {
     private Set<Comment> comments;
     private boolean deleted;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private Set<Like> likes;
+
 
 
 

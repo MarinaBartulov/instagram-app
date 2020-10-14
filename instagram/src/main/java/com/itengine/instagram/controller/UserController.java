@@ -50,4 +50,16 @@ public class UserController {
         return new ResponseEntity<>(this.userService.deleteUser(id), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/followers")
+    public ResponseEntity<?> getFollowersForUser(@PathVariable("id") Long id){
+
+        return new ResponseEntity<>(this.userService.getFollowersForUser(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/following")
+    public ResponseEntity<?> getFollowingForUser(@PathVariable("id") Long id){
+
+        return new ResponseEntity<>(this.userService.getFollowingForUser(id), HttpStatus.OK);
+    }
+
 }

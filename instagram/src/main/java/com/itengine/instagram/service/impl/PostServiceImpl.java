@@ -1,10 +1,12 @@
 package com.itengine.instagram.service.impl;
 
 import com.itengine.instagram.dto.PostDTO;
+import com.itengine.instagram.dto.PostDetailsDTO;
 import com.itengine.instagram.dto.PostNewDTO;
 import com.itengine.instagram.dto.PostUpdateDTO;
 import com.itengine.instagram.exception.BadRequestException;
 import com.itengine.instagram.exception.NotFoundException;
+import com.itengine.instagram.model.Follow;
 import com.itengine.instagram.model.Post;
 import com.itengine.instagram.model.User;
 import com.itengine.instagram.repository.PostRepository;
@@ -17,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -124,5 +127,37 @@ public class PostServiceImpl implements PostService {
         post.setDeleted(true);
         this.postRepository.save(post);
         return mapper.map(post, PostDTO.class);
+    }
+
+    @Override
+    public PostDetailsDTO getPostDetails(Long id) {
+        if(id <= 0){
+            throw new BadRequestException("User id can't be equal or less than 0.");
+        }
+        Post post = this.postRepository.findById(id).orElse(null);
+        if(post == null){
+            throw new NotFoundException("User with id " + id + " doesn't exist in th system.");
+        }
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String username = currentUser.getName();
+        User user = this.userService.findByUsername(username);
+
+        PostDetailsDTO postDetailsDTO = new PostDetailsDTO(post, user.getId());
+        return postDetailsDTO;
+    }
+
+    @Override
+    public List<PostDetailsDTO> getUserPostsFeed() {
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String username = currentUser.getName();
+        User user = this.userService.findByUsername(username);
+        List<Post> posts = new ArrayList<>();
+        for(Follow following: user.getFollowing()){
+            posts.addAll(following.getFollowed().getPosts());
+        }
+
+        return posts.stream().map(post -> new PostDetailsDTO(post, user.getId())).collect(Collectors.toList());
     }
 }

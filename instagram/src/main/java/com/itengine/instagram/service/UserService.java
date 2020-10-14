@@ -2,6 +2,7 @@ package com.itengine.instagram.service;
 
 import com.itengine.instagram.dto.UserDTO;
 import com.itengine.instagram.dto.UserRequest;
+import com.itengine.instagram.dto.UserResponseDTO;
 import com.itengine.instagram.model.User;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface UserService {
     User update(User user);
     List<UserDTO> getAllUsers();
     UserDTO deleteUser(Long id);
+    User findById(Long id);
+    List<UserResponseDTO> getFollowersForUser(Long id);
+    List<UserResponseDTO> getFollowingForUser(Long id);
 }

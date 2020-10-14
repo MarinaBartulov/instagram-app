@@ -21,5 +21,19 @@ export class UserService{
           }));
       }
 
+    getFollowers(id:number){
+      return this._apiService.get(this._config.user_url + "/" + id + "/followers")
+      .pipe(map(followers => {
+        return followers;
+      }));
+  } 
+
+    getFollowing(id:number){
+      return this._apiService.get(this._config.user_url + "/" + id + "/following")
+      .pipe(map(following => {
+        return following;
+      }));
+    }
+
   
 }

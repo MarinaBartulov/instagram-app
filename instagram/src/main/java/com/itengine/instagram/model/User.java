@@ -43,7 +43,15 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Post> posts;
-    
+
+    @OneToMany(mappedBy = "follower")
+    private Set<Follow> following;
+
+    @OneToMany(mappedBy = "followed")
+    private Set<Follow> followers;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Like> likes;
 
 
     public String getEmail() {

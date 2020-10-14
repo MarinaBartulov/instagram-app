@@ -15,6 +15,15 @@ import { UserService } from './service/user.service';
 import { TokenInterceptor } from './interceptor/TokenInterceptor';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
 import { ProfileComponent } from './profile/profile.component';
+import { PostService } from './service/post.service';
+import { FollowService } from './service/follow.service';
+import { PostDetailsComponent } from './post-details/post-details.component';
+import { ProfilePostsComponent } from './profile-posts/profile-posts.component';
+import { CommentService } from './service/comment.service';
+import { LikeService } from './service/like.service';
+import { PostFeedComponent } from './post-feed/post-feed.component';
+import { SearchUsersComponent } from './search-users/search-users.component';
+
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -65,7 +74,11 @@ const customNotifierOptions: NotifierOptions = {
     HomeComponent,
     SignupComponent,
     RegConfirmationComponent,
-    ProfileComponent
+    ProfileComponent,
+    PostDetailsComponent,
+    ProfilePostsComponent,
+    PostFeedComponent,
+    SearchUsersComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,7 +95,11 @@ const customNotifierOptions: NotifierOptions = {
     },
     ConfigService,
     AuthService,
-    UserService
+    UserService,
+    PostService,
+    FollowService,
+    CommentService,
+    LikeService
   ],
   bootstrap: [AppComponent]
 })

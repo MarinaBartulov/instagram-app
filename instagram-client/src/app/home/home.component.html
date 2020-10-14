@@ -6,25 +6,13 @@
         <div class="pull-right">
             
             <ul class="nav navbar-nav-horizontal">
-                <li><button type="button" class="btn navbar-btn btn-dark" name="logout" id="logout"  value="Profile" (click)="goToProfile()"><b>Profile</b></button></li>
+                <li><button type="button" class="btn navbar-btn btn-dark" name="search" id="search"  value="Search users" (click)="goToSearchUsers()"><b>Search users</b></button></li>
+                <li><button type="button" class="btn navbar-btn btn-dark ml-2" name="profile" id="profile"  value="Profile" (click)="goToProfile()"><b>Profile</b></button></li>
                 <li><button type="button" class="btn navbar-btn btn-dark ml-2" name="logout" id="logout"  value="Log Out" (click)="logout()"><b>Log Out</b></button></li>
             </ul>     
     </div> 
     </nav>
-    <div class="card mt-5" style="width:40%;margin-left:auto;margin-right:auto">
-        <div class="card-header">
-            <b>User 123</b>
-          </div>
-        <div class="card-body">
-            <img class="card-img" src="assets/image1.jpg" alt="Card image cap">
-            <hr/>
-            <button class="btn btn-success mr-2">Like</button> <span><b>10.342 likes</b></span>
-            <br/>
-            <a style="color:gray" href="#">View all commments</a>
-            <br/>
-            <input style="width:50%;height:3em;" type="text" placeholder="Write a comment..."/>
-        </div>  
-
-
+    <div *ngFor="let postDetails of postsDetails">
+    <app-post-feed [postDetails]="postDetails"></app-post-feed>
     </div>
 </div>

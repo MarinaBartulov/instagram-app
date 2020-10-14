@@ -2,6 +2,7 @@ package com.itengine.instagram.service.impl;
 
 import com.itengine.instagram.dto.UserDTO;
 import com.itengine.instagram.dto.UserRequest;
+import com.itengine.instagram.dto.UserResponseDTO;
 import com.itengine.instagram.exception.BadRequestException;
 import com.itengine.instagram.exception.NotFoundException;
 import com.itengine.instagram.model.Authority;
@@ -109,5 +110,24 @@ public class UserServiceImpl implements UserService {
         user.setDeleted(true);
         this.userRepository.save(user);
         return mapper.map(user, UserDTO.class);
+    }
+
+    @Override
+    public User findById(Long id) {
+        return this.userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<UserResponseDTO> getFollowersForUser(Long id) {
+
+        List<User> followers = this.userRepository.getFollowersForUser(id);
+        return followers.stream().map(user -> new UserResponseDTO(user)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserResponseDTO> getFollowingForUser(Long id) {
+
+        List<User> following = this.userRepository.getFollowingForUser(id);
+        return following.stream().map(user -> new UserResponseDTO(user)).collect(Collectors.toList());
     }
 }

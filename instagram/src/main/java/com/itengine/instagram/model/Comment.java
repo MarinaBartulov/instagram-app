@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -23,6 +24,7 @@ public class Comment {
     @ManyToOne
     private Post post;
     private boolean deleted;
+    private LocalDateTime dateTime;
 
 
 

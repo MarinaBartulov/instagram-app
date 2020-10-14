@@ -16,6 +16,7 @@ public class PostDTO {
     private String photoPath;
     private LocalDateTime dateTime;
 
+
     public PostDTO(){
 
     }

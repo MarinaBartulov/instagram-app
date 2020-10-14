@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -91,6 +92,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setText(commentNewDTO.getText());
         comment.setPost(post);
         comment.setUser(user);
+        comment.setDateTime(LocalDateTime.now());
         this.commentRepository.save(comment);
 
         return new CommentDTO(comment);

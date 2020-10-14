@@ -1,0 +1,15 @@
+<div>
+    <h4 class="text-center">Posts</h4>
+    <div style="display: flex;" *ngIf="showAllPosts">
+        <div *ngFor="let post of posts" class="card mt-5 ml-5" style="width:15em;">
+            <div class="card-body">
+                <img class="card-img" src={{post.photoPath}} height="250em" alt="Card image cap">
+                <hr/>
+                <p>{{post.description}}</p>
+                <button class="btn btn-primary" (click)="clickedDetails(post.id)">See post</button>
+            </div>  
+        </div>
+    </div> 
+    <app-post-details *ngIf="showPostDetails" [postId]="postId" (deletePostEvent)="deletePost($event)" (cancelPostEvent)="cancelPost($event)"></app-post-details>
+     
+</div>

@@ -11,4 +11,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query(value="select p from Post p where p.user.id=?1")
     List<Post> findUserPosts(Long id);
+
 }
