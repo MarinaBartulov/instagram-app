@@ -21,6 +21,13 @@ public class PostDTO {
 
     }
 
+    public PostDTO(Post post){
+        this.id = post.getId();
+        this.description = post.getDescription();
+        this.photoPath = post.getPhotoPath();
+        this.dateTime = post.getDateTime();
+    }
+
 
 
 }

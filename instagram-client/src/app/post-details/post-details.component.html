@@ -1,12 +1,13 @@
 <div class="card mt-5" style="width:40%;margin-left:auto;margin-right:auto">
     <div class="card-header">
-        <b>{{postDetails.user.username}}</b><a href="#" *ngIf="this.currentUser.id == this.postId" class="float-right" (click)="deletePost($event, postId)">Delete post</a>
+        <b>{{postDetails.user.username}}</b><a href="#" *ngIf="this.currentUser.id == this.postDetails.user.id" class="float-right" (click)="deletePost($event, postId)">Delete post</a>
       </div>
     <div class="card-body">
         <img class="card-img" src="{{postDetails.photoPath}}" alt="Card image cap">
         <hr/>
-        <button class="btn btn-success mr-2" (click)="likePost(postId)">{{postDetails.liked ? 'Unlike' : 'Like'}}</button> <a href="#"><span><b>{{postDetails.numLikes}} likes</b></span></a>
+        <button class="btn btn-success mr-2" (click)="likePost(postId)">{{postDetails.liked ? 'Unlike' : 'Like'}}</button> <a href="#" (click)="clickLikes($event)"><span><b>{{postDetails.numLikes}} likes</b></span></a>
         <br/>
+        <p class="mb-0"><b>{{postDetails.user.username}}</b> {{postDetails.description}}</p>
         <a style="color:gray" href="#" (click)="showCommentsF($event)">View all comments</a>
         <br/>
         <div *ngIf="showComments">

@@ -1,5 +1,6 @@
 <div>
     <h4 class="text-center">Posts</h4>
+    <button style="width:8em;border-radius: 1em;" class="btn btn-success ml-5" (click)="addNewPost()">Post a photo</button>
     <div style="display: flex;" *ngIf="showAllPosts">
         <div *ngFor="let post of posts" class="card mt-5 ml-5" style="width:15em;">
             <div class="card-body">

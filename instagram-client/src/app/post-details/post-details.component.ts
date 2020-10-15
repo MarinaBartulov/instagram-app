@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LikesModalComponent } from '../likes-modal/likes-modal.component';
 import { CommentNew } from '../model/CommentNew';
 import { PostDetails } from '../model/PostDetails';
 import { CommentService } from '../service/comment.service';
@@ -12,7 +14,8 @@ import { PostService } from '../service/post.service';
 })
 export class PostDetailsComponent implements OnInit {
 
-  constructor(private _commentService: CommentService, private _postService: PostService, private _likeService: LikeService) { }
+  constructor(private _commentService: CommentService, private _postService: PostService,
+     private _likeService: LikeService, private _modalService: NgbModal) { }
 
   postDetails: PostDetails = new PostDetails();
   showComments: boolean;
@@ -104,6 +107,13 @@ export class PostDetailsComponent implements OnInit {
 
   cancel(){
      this.cancelPostEvent.emit(true);
+  }
+
+  clickLikes($event){
+    $event.preventDefault();
+    $event.stopPropagation();
+    const modalRef = this._modalService.open(LikesModalComponent, {size : 'sm', scrollable: true});
+    modalRef.componentInstance.likes = this.postDetails.likes;
   }
 
 }

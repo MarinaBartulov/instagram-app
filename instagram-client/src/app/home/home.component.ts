@@ -24,15 +24,4 @@ export class HomeComponent implements OnInit {
       })
    }
 
-  logout() {
-    this._authService.logout();
-  }
-
-  goToProfile() {
-    this._router.navigate(['/profile']);
-  }
-
-  goToSearchUsers(){
-    this._router.navigate(['/searchUsers']);
-  }
 }

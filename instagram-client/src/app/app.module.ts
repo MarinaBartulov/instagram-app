@@ -23,6 +23,18 @@ import { CommentService } from './service/comment.service';
 import { LikeService } from './service/like.service';
 import { PostFeedComponent } from './post-feed/post-feed.component';
 import { SearchUsersComponent } from './search-users/search-users.component';
+import { LikesModalComponent } from './likes-modal/likes-modal.component';
+import { NewPostModalComponent } from './new-post-modal/new-post-modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserPostDetailsComponent } from './user-profile/user-post-details/user-post-details.component';
+import { UserProfilePostsComponent } from './user-profile/user-profile-posts/user-profile-posts.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import { AuthGuardService } from './service/auth-guard.service';
+import { RoleGuardService } from './service/role-guard.service';
+import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
+import { NotAuthenticatedComponent } from './not-authenticated/not-authenticated.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -79,6 +91,15 @@ const customNotifierOptions: NotifierOptions = {
     ProfilePostsComponent,
     PostFeedComponent,
     SearchUsersComponent,
+    LikesModalComponent,
+    NewPostModalComponent,
+    UserProfileComponent,
+    UserPostDetailsComponent,
+    UserProfilePostsComponent,
+    AdminPageComponent,
+    NotAuthorizedComponent,
+    NotAuthenticatedComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,6 +107,7 @@ const customNotifierOptions: NotifierOptions = {
     FormsModule,
     HttpClientModule,
     NotifierModule.withConfig(customNotifierOptions),
+    NgbModule
   ],
   providers: [
     {
@@ -99,8 +121,14 @@ const customNotifierOptions: NotifierOptions = {
     PostService,
     FollowService,
     CommentService,
-    LikeService
+    LikeService,
+    AuthGuardService,
+    RoleGuardService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ 
+    LikesModalComponent,
+    NewPostModalComponent 
+  ]
 })
 export class AppModule { }

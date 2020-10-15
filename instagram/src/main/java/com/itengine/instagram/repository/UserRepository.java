@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select fl from Follow  f inner join f.followed fl inner join f.follower fo where fo.id = ?1")
     List<User> getFollowingForUser(Long id);
+
+    @Query("from User where username like %?1% and id <> ?2")
+    List<User> searchUsers(String username, Long id);
 }

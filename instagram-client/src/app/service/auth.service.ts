@@ -48,6 +48,7 @@ export class AuthService implements OnInit{
       logout() {
         localStorage.setItem('access_token', null);
         localStorage.setItem('role', null);
+        localStorage.setItem('currentUser', null);
         this._router.navigate(['/login']);
         console.log("Access token:" + localStorage.getItem('access_token'));
         console.log("Role: " + localStorage.getItem('role'));

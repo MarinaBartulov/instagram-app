@@ -1,8 +1,6 @@
 package com.itengine.instagram.service.impl;
 
-import com.itengine.instagram.dto.UserDTO;
-import com.itengine.instagram.dto.UserRequest;
-import com.itengine.instagram.dto.UserResponseDTO;
+import com.itengine.instagram.dto.*;
 import com.itengine.instagram.exception.BadRequestException;
 import com.itengine.instagram.exception.NotFoundException;
 import com.itengine.instagram.model.Authority;
@@ -129,5 +127,48 @@ public class UserServiceImpl implements UserService {
 
         List<User> following = this.userRepository.getFollowingForUser(id);
         return following.stream().map(user -> new UserResponseDTO(user)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserFollowDTO> searchUsers(String username) {
+
+        if(username.equals("") || username == null){
+            throw new BadRequestException("Username is required for search");
+        }
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String usernameCurrent = currentUser.getName();
+        User userCurrent = this.userRepository.findByUsername(usernameCurrent);
+
+
+        List<User> users = this.userRepository.searchUsers(username, userCurrent.getId());
+        List<UserFollowDTO> usersFound = users.stream().map(user -> new UserFollowDTO(user)).collect(Collectors.toList());
+        for(UserFollowDTO uf: usersFound){
+            if(userCurrent.getFollowing().stream().filter(u -> u.getFollowed().getId() == uf.getId()).findAny().isPresent()){
+                uf.setFollow(true);
+            }else{
+                uf.setFollow(false);
+            }
+        }
+        return usersFound;
+    }
+
+    @Override
+    public UserProfileDetailsDTO getUserProfileDetails(Long id) {
+
+        if(id <= 0){
+            throw new BadRequestException("User id can't be less or equal than 0.");
+        }
+        User user = this.userRepository.findById(id).orElse(null);
+        if(user == null){
+            throw new NotFoundException("User with id " + id + " doesn't exist in the system");
+        }
+
+        Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+        String usernameCurrent = currentUser.getName();
+        User userCurrent = this.userRepository.findByUsername(usernameCurrent);
+        boolean follow = userCurrent.getFollowing().stream().filter(u -> u.getId() == id).findAny().isPresent();
+        UserProfileDetailsDTO up = new UserProfileDetailsDTO(user, follow);
+        return up;
     }
 }

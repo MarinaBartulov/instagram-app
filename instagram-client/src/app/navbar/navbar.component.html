@@ -1,0 +1,14 @@
+<nav class="navbar navbar-light bg-white">
+    <a class="navbar-brand" href="/home">
+        <i style="font-size:1.3em;color:black;padding-left:15em;"> Instagram</i>
+    </a> 
+    <div class="pull-right">
+        
+        <ul class="nav navbar-nav-horizontal">
+            <li *ngIf="role == 'ROLE_ADMIN'"><button type="button" class="btn navbar-btn btn-dark" name="adminPage" id="adminPage"  value="Admin page" (click)="goToAdminPage()"><b>Admin page</b></button></li>
+            <li><button type="button" class="btn navbar-btn btn-dark ml-2" name="search" id="search"  value="Search users" (click)="goToSearchUsers()"><b>Search users</b></button></li>
+            <li><button type="button" class="btn navbar-btn btn-dark ml-2" name="profile" id="profile"  value="Profile" (click)="goToProfile()"><b>Profile</b></button></li>
+            <li><button type="button" class="btn navbar-btn btn-dark ml-2" name="logout" id="logout"  value="Log Out" (click)="logout()"><b>Log Out</b></button></li>
+        </ul>     
+</div> 
+</nav>

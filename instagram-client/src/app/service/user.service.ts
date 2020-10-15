@@ -15,6 +15,7 @@ export class UserService{
         return this._apiService.get(this._config.currentUser_url)
           .pipe(map(user => {
             localStorage.setItem('currentUser', JSON.stringify(user)); 
+            localStorage.setItem('role', user.authorities[0]['authority']);
             console.log(JSON.parse(localStorage.getItem('currentUser')));
             console.log(user.authorities[0]['authority']);
             return user;
@@ -32,6 +33,20 @@ export class UserService{
       return this._apiService.get(this._config.user_url + "/" + id + "/following")
       .pipe(map(following => {
         return following;
+      }));
+    }
+
+    searchUsers(username: string){
+      return this._apiService.get(this._config.user_url + "/search?username=" + username)
+      .pipe(map(usersFound => {
+        return usersFound;
+      }));
+    }
+
+    getUserProfileDetails(id: number){
+      return this._apiService.get(this._config.user_url + "/" + id + "/profileDetails")
+      .pipe(map(userProfileDetails => {
+        return userProfileDetails;
       }));
     }
 

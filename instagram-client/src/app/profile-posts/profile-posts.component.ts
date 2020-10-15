@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Post } from '../model/Post';
 import { PostDetails } from '../model/PostDetails';
+import { NewPostModalComponent } from '../new-post-modal/new-post-modal.component';
 import { PostService } from '../service/post.service';
 
 @Component({
@@ -10,13 +12,14 @@ import { PostService } from '../service/post.service';
 })
 export class ProfilePostsComponent implements OnInit {
 
-  constructor(private _postService: PostService) { }
+  constructor(private _postService: PostService, private _modalService: NgbModal) { }
 
   posts: Post[];
   showAllPosts: boolean;
   showPostDetails: boolean;
   postId: number;
   currentUser: any;
+  newPost: FormData;
 
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem("currentUser"));
@@ -60,6 +63,21 @@ export class ProfilePostsComponent implements OnInit {
   cancelPost($event){
     this.showPostDetails = false;
     this.showAllPosts = true;
+  }
+
+  addNewPost(){
+    const modalRef = this._modalService.open(NewPostModalComponent, {size : 'lg'});
+    modalRef.result.then((result) => {
+      if (result) {
+        this.newPost = result;
+        console.log(this.newPost)
+        this._postService.addNewPost(this.newPost).subscribe(
+          res => {
+            console.log(res);
+          }
+        )
+      }
+      });
   }
 
   

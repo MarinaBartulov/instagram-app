@@ -62,4 +62,16 @@ public class UserController {
         return new ResponseEntity<>(this.userService.getFollowingForUser(id), HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> searchUsers(@RequestParam("username") String username){
+
+        return new ResponseEntity<>(this.userService.searchUsers(username), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/profileDetails")
+    public ResponseEntity<?> getUserProfileDetails(@PathVariable("id") Long id){
+
+        return new ResponseEntity<>(this.userService.getUserProfileDetails(id), HttpStatus.OK);
+    }
+
 }

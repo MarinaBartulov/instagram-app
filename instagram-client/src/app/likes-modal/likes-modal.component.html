@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h4  class="modal-title">Likes</h4>
+</div>
+<div class="modal-body">
+    <div class="container-fluid">
+        <table class="table table-warning">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th style="width:80%;text-align: center;" scope="col">Username</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let like of likes; index as i">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td style="width:80%;text-align: center;" class="tb-style">
+                        {{ like.username }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button class="btn btn-light float-right myBtn mr-1" (click)="close()">Close</button>
+</div>

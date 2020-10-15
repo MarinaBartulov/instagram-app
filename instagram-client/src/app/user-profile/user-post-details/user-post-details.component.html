@@ -1,0 +1,26 @@
+<div class="card mt-5" style="width:40%;margin-left:auto;margin-right:auto">
+    <div class="card-header">
+        <b>{{postDetails.user.username}}</b>
+      </div>
+    <div class="card-body">
+        <img class="card-img" src="{{postDetails.photoPath}}" alt="Card image cap">
+        <hr/>
+        <button class="btn btn-success mr-2" (click)="likePost(postId)">{{postDetails.liked ? 'Unlike' : 'Like'}}</button> <a href="#" (click)="clickLikes($event)"><span><b>{{postDetails.numLikes}} likes</b></span></a>
+        <br/>
+        <p class="mb-0"><b>{{postDetails.user.username}}</b> {{postDetails.description}}</p>
+        <a style="color:gray" href="#" (click)="showCommentsF($event)">View all comments</a>
+        <br/>
+        <div *ngIf="showComments">
+            <p class="mt-0 mb-0" *ngFor="let comment of postDetails.comments">
+                <b>{{comment.username}}</b> {{comment.text}} <a *ngIf="this.currentUser.id == comment.userId || this.currentUser.id == this.postId" href="#" (click)="deleteComment($event, comment.id)">Delete</a></p>
+        </div>
+        <form (ngSubmit) = "writeComment(postId)" #commentForm="ngForm">
+            <textarea  style="width:50%;height:3em;display: block;" [(ngModel)]='newComment.text' type="text" name="comment" placeholder="Write a comment..."></textarea>
+            <button type="submit" class="btn btn-primary mt-1" [disabled]="!commentForm.form.valid">Write</button>
+            <button  type="button" class="btn btn-danger ml-2 mt-1" (click)="cancel()">Cancel</button>
+        </form>
+    </div>  
+
+
+</div>
+

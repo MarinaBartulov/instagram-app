@@ -1,9 +1,6 @@
 package com.itengine.instagram.service.impl;
 
-import com.itengine.instagram.dto.PostDTO;
-import com.itengine.instagram.dto.PostDetailsDTO;
-import com.itengine.instagram.dto.PostNewDTO;
-import com.itengine.instagram.dto.PostUpdateDTO;
+import com.itengine.instagram.dto.*;
 import com.itengine.instagram.exception.BadRequestException;
 import com.itengine.instagram.exception.NotFoundException;
 import com.itengine.instagram.model.Follow;
@@ -20,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -157,7 +156,14 @@ public class PostServiceImpl implements PostService {
         for(Follow following: user.getFollowing()){
             posts.addAll(following.getFollowed().getPosts());
         }
-
+        Collections.sort(posts, new SortByDate());
         return posts.stream().map(post -> new PostDetailsDTO(post, user.getId())).collect(Collectors.toList());
+    }
+
+    static class SortByDate implements Comparator<Post> {
+        @Override
+        public int compare(Post a, Post b) {
+            return b.getDateTime().compareTo(a.getDateTime());
+        }
     }
 }
