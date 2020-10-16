@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class FollowServiceImpl implements FollowService {
@@ -82,5 +83,17 @@ public class FollowServiceImpl implements FollowService {
         this.followRepository.delete(follow);
 
         return new FollowResponseDTO(follow);
+    }
+
+    @Override
+    public List<User> getFollowersForUser(Long id) {
+
+        return this.followRepository.getFollowersForUser(id);
+    }
+
+    @Override
+    public List<User> getFollowingForUser(Long id) {
+
+        return this.followRepository.getFollowingForUser(id);
     }
 }

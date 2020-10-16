@@ -14,6 +14,8 @@ public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    //@EmbeddedId
+    //private FollowId id;
     @ManyToOne
     private User follower;
     @ManyToOne

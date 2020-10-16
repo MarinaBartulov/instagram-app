@@ -22,6 +22,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     public Photo storeFile(MultipartFile image) throws IOException {
 
         String img_ts = image.getOriginalFilename().split("\\.")[0] + "_" + System.currentTimeMillis() + "." + image.getOriginalFilename().split("\\.")[1];
+        img_ts.replace(' ', '_');
         System.out.println(image.getOriginalFilename());
         System.out.println(img_ts);
         System.out.println(image.getContentType());

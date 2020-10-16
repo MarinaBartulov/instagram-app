@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NotifierService } from 'angular-notifier';
 import { Post } from '../model/Post';
 import { PostDetails } from '../model/PostDetails';
 import { NewPostModalComponent } from '../new-post-modal/new-post-modal.component';
@@ -12,7 +13,7 @@ import { PostService } from '../service/post.service';
 })
 export class ProfilePostsComponent implements OnInit {
 
-  constructor(private _postService: PostService, private _modalService: NgbModal) { }
+  constructor(private _postService: PostService, private _modalService: NgbModal, private _notifier: NotifierService) { }
 
   posts: Post[];
   showAllPosts: boolean;
@@ -74,6 +75,12 @@ export class ProfilePostsComponent implements OnInit {
         this._postService.addNewPost(this.newPost).subscribe(
           res => {
             console.log(res);
+          },
+          error => {
+            this._notifier.notify("error",error.error);
+            setTimeout(() => {
+              this._notifier.hideAll();
+            }, 3000)
           }
         )
       }

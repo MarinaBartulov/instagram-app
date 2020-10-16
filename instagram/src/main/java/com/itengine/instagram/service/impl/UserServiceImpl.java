@@ -8,6 +8,7 @@ import com.itengine.instagram.model.User;
 import com.itengine.instagram.repository.AuthorityRepository;
 import com.itengine.instagram.repository.UserRepository;
 import com.itengine.instagram.service.AuthorityService;
+import com.itengine.instagram.service.FollowService;
 import com.itengine.instagram.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ModelMapper mapper;
+
+    @Autowired
+    private FollowService followService;
 
     @Override
     public User findByUsername(String username) {
@@ -118,14 +122,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponseDTO> getFollowersForUser(Long id) {
 
-        List<User> followers = this.userRepository.getFollowersForUser(id);
+        List<User> followers = this.followService.getFollowersForUser(id);
         return followers.stream().map(user -> new UserResponseDTO(user)).collect(Collectors.toList());
     }
 
     @Override
     public List<UserResponseDTO> getFollowingForUser(Long id) {
 
-        List<User> following = this.userRepository.getFollowingForUser(id);
+        List<User> following = this.followService.getFollowingForUser(id);
         return following.stream().map(user -> new UserResponseDTO(user)).collect(Collectors.toList());
     }
 
@@ -167,7 +171,7 @@ public class UserServiceImpl implements UserService {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String usernameCurrent = currentUser.getName();
         User userCurrent = this.userRepository.findByUsername(usernameCurrent);
-        boolean follow = userCurrent.getFollowing().stream().filter(u -> u.getId() == id).findAny().isPresent();
+        boolean follow = userCurrent.getFollowing().stream().filter(u -> u.getFollowed().getId() == id).findAny().isPresent();
         UserProfileDetailsDTO up = new UserProfileDetailsDTO(user, follow);
         return up;
     }

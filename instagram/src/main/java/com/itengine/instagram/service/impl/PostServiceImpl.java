@@ -160,12 +160,16 @@ public class PostServiceImpl implements PostService {
         Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
         String username = currentUser.getName();
         User user = this.userService.findByUsername(username);
-        List<Post> posts = new ArrayList<>();
+
+        List<Post> posts = this.postRepository.getUserPostsFeed(user.getId());
+        return posts.stream().map(post -> new PostDetailsDTO(post, user.getId())).collect(Collectors.toList());
+
+        /*List<Post> posts = new ArrayList<>();
         for(Follow following: user.getFollowing()){
             posts.addAll(following.getFollowed().getPosts());
         }
         Collections.sort(posts, new SortByDate());
-        return posts.stream().map(post -> new PostDetailsDTO(post, user.getId())).collect(Collectors.toList());
+        return posts.stream().map(post -> new PostDetailsDTO(post, user.getId())).collect(Collectors.toList());*/
     }
 
     static class SortByDate implements Comparator<Post> {

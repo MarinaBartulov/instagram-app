@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-new-post-modal',
@@ -8,7 +9,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class NewPostModalComponent implements OnInit {
 
-  constructor(private _activeModal: NgbActiveModal) { }
+  constructor(private _activeModal: NgbActiveModal, private _notifier: NotifierService) { }
 
   selectedFile: File = null;
   description:string = null;
@@ -25,6 +26,13 @@ export class NewPostModalComponent implements OnInit {
   }
 
   postPhoto(){
+    if(this.selectedFile == null || this.description == null){
+      this._notifier.notify("error","Photo and description are required.");
+      setTimeout(() => {
+        this._notifier.hideAll();
+      }, 3000)
+      return;
+    }
     const fd = new FormData();
     fd.append("file",this.selectedFile);
     fd.append("description", this.description);
