@@ -28,13 +28,13 @@ public class PostController {
 
     @GetMapping("/{id}")
     //@PreAuthorize("hasRole('ROLE_USER')")
-    private ResponseEntity<?> getPost(@PathVariable Long id){
+    public ResponseEntity<?> getPost(@PathVariable Long id){
 
         return new ResponseEntity(this.postService.getPost(id), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/details")
-    private ResponseEntity<?> getPostDetails(@PathVariable Long id){
+    public ResponseEntity<?> getPostDetails(@PathVariable Long id){
 
         return new ResponseEntity(this.postService.getPostDetails(id), HttpStatus.OK);
     }
@@ -42,51 +42,34 @@ public class PostController {
 
     @GetMapping(value="/user/{id}")
     //@PreAuthorize("hasRole('ROLE_USER')")
-    private ResponseEntity<?> getUserPosts(@PathVariable Long id){
+    public ResponseEntity<?> getUserPosts(@PathVariable Long id){
 
         return new ResponseEntity(this.postService.getUserPosts(id), HttpStatus.OK);
     }
 
-    /*@PostMapping
-    @PreAuthorize("hasRole('ROLE_USER')")
-    private ResponseEntity<?> addPost(@RequestBody PostNewDTO postNewDTO){
-
-        return new ResponseEntity(this.postService.addPost(postNewDTO), HttpStatus.CREATED);
-    }*/
-
     @PostMapping("/upload")
-    private ResponseEntity<?> addPost(@RequestParam("file") MultipartFile image) throws IOException {
+    public ResponseEntity<?> addPost(@RequestParam("file") MultipartFile image, @RequestParam("description") String description) throws IOException {
 
-
-        if(image == null){
-            System.out.println("Image is null");
-        }
-
-        File convertFile = new File("C:\\MarinaB-Praksa\\instagram-app\\instagram-client\\src\\assets\\images\\" + image.getOriginalFilename());
-        convertFile.createNewFile();
-        FileOutputStream fout = new FileOutputStream(convertFile);
-        fout.write(image.getBytes());
-        fout.close();
-
-        return new ResponseEntity(HttpStatus.CREATED);
+        System.out.println(description);
+        return new ResponseEntity(this.postService.addPost(image, description), HttpStatus.CREATED);
     }
 
     @PutMapping(value="/{id}")
     //@PreAuthorize("hasRole('ROLE_USER')")
-    private ResponseEntity<?> updatePost(@PathVariable("id") Long id, @RequestBody PostUpdateDTO postUpdateDTO){
+    public ResponseEntity<?> updatePost(@PathVariable("id") Long id, @RequestBody PostUpdateDTO postUpdateDTO){
 
         return new ResponseEntity(this.postService.updatePost(id, postUpdateDTO), HttpStatus.OK);
     }
 
     @DeleteMapping(value="/{id}")
-    private ResponseEntity<?> deletePost(@PathVariable("id") Long id){
+    public ResponseEntity<?> deletePost(@PathVariable("id") Long id){
 
         return new ResponseEntity(this.postService.deletePost(id), HttpStatus.OK);
     }
 
     @GetMapping(value="/feed")
     //@PreAuthorize("hasRole('ROLE_USER')")
-    private ResponseEntity<?> getUserPostsFeed(){
+    public ResponseEntity<?> getUserPostsFeed(){
 
         return new ResponseEntity(this.postService.getUserPostsFeed(), HttpStatus.OK);
     }

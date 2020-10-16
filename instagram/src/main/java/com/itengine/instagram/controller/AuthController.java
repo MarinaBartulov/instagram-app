@@ -55,6 +55,9 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         User user = (User) authentication.getPrincipal();
+        if(!user.isActive()){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Your Instagram account is deactivated.");
+        }
         String jwt = tokenUtils.generateToken(user.getUsername());
         int expiresIn = tokenUtils.getExpiredIn();
 
@@ -63,7 +66,7 @@ public class AuthController {
 
     @PostMapping(value = "/signup")
     public ResponseEntity<?> signUp(@RequestBody UserRequest userRequest) throws MessagingException, InterruptedException {
-        System.out.println("Registracija");
+
         return new ResponseEntity(this.authService.singUp(userRequest), HttpStatus.CREATED);
 
     }

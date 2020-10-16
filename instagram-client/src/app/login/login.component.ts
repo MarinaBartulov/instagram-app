@@ -15,10 +15,12 @@ export class LoginComponent implements OnInit {
 
   loginUser: LoginUser;
   showError: boolean;
+  errorMsg: string;
 
   ngOnInit(): void {
     this.loginUser = new LoginUser();
     this.showError = false;
+    this.errorMsg = "";
   }
 
   onClickedLogin(){
@@ -32,6 +34,7 @@ export class LoginComponent implements OnInit {
         },
         error => {
           this.showError = true;
+          this.errorMsg = error.error;
           setTimeout(() => {
            this.showError = false;
          }, 5000)

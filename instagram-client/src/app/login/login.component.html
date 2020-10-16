@@ -11,7 +11,7 @@
         <button type="submit" class="btn btn-primary" style="width:100%" [disabled]="!userForm.form.valid">Log In</button>
         <hr/>
     </form> 
-    <p class="text-center" *ngIf="showError" style="color:red">Invalid username or password.</p>
+    <p class="text-center" *ngIf="showError" style="color:red">{{errorMsg}}</p>
     <a href="#" class="text-center mb-3">Forgot password?</a>
   </div>
   <div class="card ml-auto mr-auto" style="width:23em;margin-top:1%;">

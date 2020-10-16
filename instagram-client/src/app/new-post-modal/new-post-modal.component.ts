@@ -27,8 +27,7 @@ export class NewPostModalComponent implements OnInit {
   postPhoto(){
     const fd = new FormData();
     fd.append("file",this.selectedFile);
-    //fd.append("description", this.description);
-    //console.log(fd.getAll("description"))
+    fd.append("description", this.description);
     this._activeModal.close(fd);
   }
 

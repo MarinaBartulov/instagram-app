@@ -22,7 +22,7 @@ public class UserController {
 
 
     @GetMapping
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAllUsers(){
 
         return new ResponseEntity<>(this.userService.getAllUsers(), HttpStatus.OK);
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteUser(@PathVariable("id") Long id){
 
         return new ResponseEntity<>(this.userService.deleteUser(id), HttpStatus.OK);
@@ -73,5 +73,14 @@ public class UserController {
 
         return new ResponseEntity<>(this.userService.getUserProfileDetails(id), HttpStatus.OK);
     }
+
+    @PutMapping("/{id}/ban")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> banUser(@PathVariable("id") Long id){
+
+        return new ResponseEntity<>(this.userService.banUser(id), HttpStatus.OK);
+    }
+
+
 
 }

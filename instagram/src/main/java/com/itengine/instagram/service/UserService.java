@@ -12,11 +12,12 @@ public interface UserService {
     UserDTO getCurrentUser();
     UserDTO findUser(Long id);
     User update(User user);
-    List<UserDTO> getAllUsers();
+    List<UserAdminDTO> getAllUsers();
     UserDTO deleteUser(Long id);
     User findById(Long id);
     List<UserResponseDTO> getFollowersForUser(Long id);
     List<UserResponseDTO> getFollowingForUser(Long id);
     List<UserFollowDTO> searchUsers(String username);
     UserProfileDetailsDTO getUserProfileDetails(Long id);
+    UserDTO banUser(Long id);
 }

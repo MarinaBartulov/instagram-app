@@ -10,6 +10,7 @@ import { SignupComponent } from './signup/signup.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AuthGuardService as AuthGuard } from './service/auth-guard.service';
 import { RoleGuardService as RoleGuard } from './service/role-guard.service';
+import { NotAuthGuardService as NotAuthGuard } from './service/not-auth-guard.service';
 import { NotAuthenticatedComponent } from './not-authenticated/not-authenticated.component';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 
@@ -17,8 +18,8 @@ const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path: 'login', component: LoginComponent},
-  {path: 'signup', component: SignupComponent},
+  {path: 'login', component: LoginComponent, canActivate: [NotAuthGuard]},
+  {path: 'signup', component: SignupComponent, canActivate: [NotAuthGuard]},
   {path: 'confirmationRegistration/:token', component: RegConfirmationComponent},
   {path: 'searchUsers', component: SearchUsersComponent, canActivate: [AuthGuard]},
   {path: 'userProfile/:id', component: UserProfileComponent, canActivate: [AuthGuard]},

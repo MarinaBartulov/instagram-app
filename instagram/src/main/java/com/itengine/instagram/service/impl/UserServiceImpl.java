@@ -85,11 +85,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getAllUsers() {
+    public List<UserAdminDTO> getAllUsers() {
 
         List<User> users = this.userRepository.findAll();
         return users.stream()
-                .map(user -> mapper.map(user, UserDTO.class))
+                .map(user -> mapper.map(user, UserAdminDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -170,5 +170,26 @@ public class UserServiceImpl implements UserService {
         boolean follow = userCurrent.getFollowing().stream().filter(u -> u.getId() == id).findAny().isPresent();
         UserProfileDetailsDTO up = new UserProfileDetailsDTO(user, follow);
         return up;
+    }
+
+    @Override
+    public UserDTO banUser(Long id) {
+
+        if(id <= 0){
+            throw new BadRequestException("User id can't be less or equal than 0.");
+        }
+        User user = this.userRepository.findById(id).orElse(null);
+        if(user == null){
+            throw new NotFoundException("User with id " + id + " doesn't exist in the system");
+        }
+
+        if(user.isActive()){
+            user.setActive(false);
+        }else{
+            user.setActive(true);
+        }
+        this.userRepository.save(user);
+
+        return mapper.map(user, UserDTO.class);
     }
 }

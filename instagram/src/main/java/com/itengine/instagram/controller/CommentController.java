@@ -5,6 +5,7 @@ import com.itengine.instagram.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -39,4 +40,21 @@ public class CommentController {
 
         return new ResponseEntity(this.commentService.deleteComment(id), HttpStatus.OK);
     }
+
+    @GetMapping(value="/admin", produces = "application/json")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> getAllComments(){
+
+        return new ResponseEntity(this.commentService.getAllComments(), HttpStatus.OK);
+    }
+
+    @DeleteMapping(value="/{id}/admin", produces = "application/json")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> deleteCommentAdmin(@PathVariable("id") Long id){
+
+        return new ResponseEntity(this.commentService.deleteCommentAdmin(id), HttpStatus.OK);
+    }
+
+
+
 }

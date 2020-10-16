@@ -20,4 +20,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("from User where username like %?1% and id <> ?2")
     List<User> searchUsers(String username, Long id);
+
 }

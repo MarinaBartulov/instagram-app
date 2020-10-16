@@ -50,5 +50,23 @@ export class UserService{
       }));
     }
 
+    banUser(id: number){
+      const headers = new HttpHeaders({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      });
+      return this._apiService.put(this._config.user_url + "/" + id + "/ban", headers)
+      .pipe(map(user => {
+        return user;
+      }));
+    }
+
+    getAllUsers(){
+      return this._apiService.get(this._config.user_url)
+      .pipe(map(users => {
+        return users;
+      }));
+    }
+
   
 }

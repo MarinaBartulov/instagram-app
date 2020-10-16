@@ -1,3 +1,56 @@
 <div class="container-fluid">
   <app-navbar></app-navbar>
+  <button (click)="showDivUsers()" class="btn btn-primary mt-2" style="width:7em">Users</button>
+  <button (click)="showDivComments()" class="btn btn-primary ml-2 mt-2">Comments</button>
+
+  <div *ngIf="showComments" class="container-fluid">
+      <h2 style="text-align: center;">Comments</h2>
+      <table class="table" style="width:80%;margin:auto;margin-top: 1em;">
+        <thead style="background-color:rgb(30, 144, 252);">
+          <tr>
+            <th style="text-align: center;" scope="col">#</th>
+            <th style="text-align: center;" scope="col">Photo</th>
+            <th style="text-align: center;" scope="col">Description</th>
+            <th style="text-align: center;" scope="col">Posted</th>
+            <th style="text-align: center;" scope="col">Commented</th>
+            <th style="text-align: center;" scope="col">Text</th>
+            <th style="text-align: center;" scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of comments;let i = index">
+            <th style="background-color: rgb(30, 144, 252);text-align: center;vertical-align: middle;" scope="row">{{i+1}}</th>
+            <td style="background-color: white;text-align: center;vertical-align: middle;"><img src={{c.photoPath}} alt="photo" height="100em"></td>
+            <td style="background-color: white;text-align: center;vertical-align: middle;">{{c.description}}</td> 
+            <td style="background-color: white;text-align: center;vertical-align: middle;">{{c.posted}}</td> 
+            <td style="background-color: white;text-align: center;vertical-align: middle;">{{c.commented}}</td> 
+            <td style="background-color: white;text-align: center;vertical-align: middle;">{{c.text}}</td> 
+            <td style="background-color: white;text-align: center;padding: 0;vertical-align: middle;"><button class="btn btn-warning" (click)="delete(c.id)">Delete</button></td> 
+          </tr>
+        </tbody>
+      </table>
+  </div>
+  <div *ngIf="showUsers" class="container-fluid">
+      <h2 style="text-align: center;">Users</h2>
+      <table class="table" style="width:80%;margin:auto;margin-top: 1em;">
+        <thead style="background-color:rgb(30, 144, 252);">
+          <tr>
+            <th style="text-align: center;" scope="col">#</th>
+            <th style="text-align: center;" scope="col">Username</th>
+            <th style="text-align: center;" scope="col">Name</th>
+            <th style="text-align: center;" scope="col">Email</th>
+            <th style="text-align: center;" scope="col">Activate/Deactivate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let u of users;let i = index">
+            <th style="background-color: rgb(30, 144, 252);text-align: center;vertical-align: middle;" scope="row">{{i+1}}</th>
+            <td style="background-color: white;text-align: center;vertical-align: middle;">{{u.username}}</td> 
+            <td style="background-color: white;text-align: center;vertical-align: middle;">{{u.name}}</td> 
+            <td style="background-color: white;text-align: center;vertical-align: middle;">{{u.email}}</td> 
+            <td style="background-color: white;text-align: center;padding: 0;vertical-align: middle;"><button *ngIf="u.id !== currentUser.id" class="btn btn-warning" (click)="banUser(u.id)">{{u.active? 'Deactivate':'Activate'}}</button></td> 
+          </tr>
+        </tbody>
+      </table>
+  </div>
 </div>

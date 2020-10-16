@@ -35,6 +35,7 @@ import { RoleGuardService } from './service/role-guard.service';
 import { NotAuthorizedComponent } from './not-authorized/not-authorized.component';
 import { NotAuthenticatedComponent } from './not-authenticated/not-authenticated.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { NotAuthGuardService } from './service/not-auth-guard.service';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -123,7 +124,9 @@ const customNotifierOptions: NotifierOptions = {
     CommentService,
     LikeService,
     AuthGuardService,
-    RoleGuardService
+    RoleGuardService,
+    NotAuthGuardService
+    
   ],
   bootstrap: [AppComponent],
   entryComponents: [ 

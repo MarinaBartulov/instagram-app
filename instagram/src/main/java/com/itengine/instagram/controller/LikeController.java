@@ -16,31 +16,31 @@ public class LikeController {
 
 
     @GetMapping
-    private ResponseEntity<?> getLikesOfUser(){
+    public ResponseEntity<?> getLikesOfUser(){
 
         return new ResponseEntity<>(this.likeService.getLikesOfUser(), HttpStatus.OK);
     }
 
     @GetMapping("/post/{id}")
-    private ResponseEntity<?> getLikesForPost(@PathVariable("id") Long id){
+    public ResponseEntity<?> getLikesForPost(@PathVariable("id") Long id){
 
         return new ResponseEntity<>(this.likeService.getLikesForPost(id), HttpStatus.OK);
     }
 
     @GetMapping("post/{id}/number")
-    private ResponseEntity<?> getNumberOfLikesForPost(@PathVariable("id") Long id){
+    public ResponseEntity<?> getNumberOfLikesForPost(@PathVariable("id") Long id){
 
         return new ResponseEntity<>(this.likeService.getNumberOfLikesForPost(id), HttpStatus.OK);
     }
 
     @PostMapping("/post/{id}")
-    private ResponseEntity<?> likePost(@PathVariable("id") Long id){
+    public ResponseEntity<?> likePost(@PathVariable("id") Long id){
 
         return new ResponseEntity<>(this.likeService.likePost(id), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/post/{id}")
-    private ResponseEntity<?> unlikePost(@PathVariable("id") Long id){
+    public ResponseEntity<?> unlikePost(@PathVariable("id") Long id){
 
         return new ResponseEntity<>(this.likeService.unlikePost(id), HttpStatus.OK);
     }

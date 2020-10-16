@@ -24,7 +24,7 @@ public class Post {
     private Long id;
     private String description;
     private LocalDateTime dateTime;
-    private String photoPath;
+    //private String photoPath;
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "post")
@@ -33,6 +33,9 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private Set<Like> likes;
+
+    @OneToOne
+    private Photo photo;
 
 
 

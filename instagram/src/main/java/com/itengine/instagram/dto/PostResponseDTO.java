@@ -22,7 +22,7 @@ public class PostResponseDTO {
     public PostResponseDTO(Post post){
         this.id = post.getId();
         this.description = post.getDescription();
-        this.photoPath = post.getPhotoPath();
+        this.photoPath = post.getPhoto().getPath();
         this.dateTime = post.getDateTime();
         this.numLikes = post.getLikes().size();
         this.user = new UserResponseDTO(post.getUser());

@@ -37,6 +37,21 @@ export class CommentService{
           }));
     }
 
+    deleteCommentAdmin(id: number){
+
+      return this._apiService.delete(this._config.comment_url + "/" + id + "/admin")
+      .pipe(map(comment => {
+        return comment;
+      }));
+    }
+
+    getAllCommentsAdmin(){
+      return this._apiService.get(this._config.comment_url + "/admin")
+      .pipe(map(comments => {
+        return comments;
+      }));
+    }
+
 
 
   

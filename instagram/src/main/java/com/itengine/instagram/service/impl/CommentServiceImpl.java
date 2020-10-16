@@ -1,5 +1,6 @@
 package com.itengine.instagram.service.impl;
 
+import com.itengine.instagram.dto.CommentAdminDTO;
 import com.itengine.instagram.dto.CommentDTO;
 import com.itengine.instagram.dto.CommentNewDTO;
 import com.itengine.instagram.exception.BadRequestException;
@@ -120,6 +121,28 @@ public class CommentServiceImpl implements CommentService {
             throw new BadRequestException("You are not allowed to delete this comment.");
         }
 
+        return new CommentDTO(comment);
+    }
+
+    @Override
+    public List<CommentAdminDTO> getAllComments() {
+
+        List<Comment> comments = this.commentRepository.findAll();
+        return comments.stream().map(c -> new CommentAdminDTO(c)).collect(Collectors.toList());
+    }
+
+    @Override
+    public CommentDTO deleteCommentAdmin(Long id) {
+        if(id <= 0){
+            throw new BadRequestException("Comment id can't be equal or less than 0.");
+        }
+        Comment comment = this.commentRepository.findById(id).orElse(null);
+        if(comment == null){
+            throw new NotFoundException("Comment with id " + id + " doesn't exist.");
+        }
+
+        comment.setDeleted(true);
+        this.commentRepository.save(comment);
         return new CommentDTO(comment);
     }
 }

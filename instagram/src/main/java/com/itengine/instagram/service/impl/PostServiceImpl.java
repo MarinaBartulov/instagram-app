@@ -4,9 +4,11 @@ import com.itengine.instagram.dto.*;
 import com.itengine.instagram.exception.BadRequestException;
 import com.itengine.instagram.exception.NotFoundException;
 import com.itengine.instagram.model.Follow;
+import com.itengine.instagram.model.Photo;
 import com.itengine.instagram.model.Post;
 import com.itengine.instagram.model.User;
 import com.itengine.instagram.repository.PostRepository;
+import com.itengine.instagram.service.FileStorageService;
 import com.itengine.instagram.service.PostService;
 import com.itengine.instagram.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -14,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +37,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FileStorageService fileStorageService;
 
 
     @Override
@@ -66,13 +73,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO addPost(PostNewDTO postNewDTO) {
+    public PostDTO addPost(MultipartFile file, String description) throws IOException {
 
         String errorMsg = "";
-        if(postNewDTO.getDescription().equals("") || postNewDTO.getDescription() == null){
+        if(description.equals("") || description == null){
             errorMsg += "Description is required.";
         }
-        if(postNewDTO.getPath().equals("") || postNewDTO.getPath() == null){
+        if(file == null){
             errorMsg += "Photo is required.";
         }
         if(!errorMsg.equals("")){
@@ -82,14 +89,15 @@ public class PostServiceImpl implements PostService {
         String username = currentUser.getName();
         User user = this.userService.findByUsername(username);
 
+        Photo photo = this.fileStorageService.storeFile(file);
         Post post = new Post();
-        post.setDescription(postNewDTO.getDescription());
-        post.setPhotoPath(postNewDTO.getPath());
+        post.setDescription(description);
+        post.setPhoto(photo);
         post.setDateTime(LocalDateTime.now());
         post.setUser(user);
 
         this.postRepository.save(post);
-        return mapper.map(post, PostDTO.class);
+        return new PostDTO(post);
     }
 
     @Override

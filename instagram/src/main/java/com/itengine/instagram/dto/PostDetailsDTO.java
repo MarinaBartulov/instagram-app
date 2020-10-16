@@ -34,7 +34,7 @@ public class PostDetailsDTO {
     public PostDetailsDTO(Post post, Long id){
         this.id = post.getId();
         this.description = post.getDescription();
-        this.photoPath = post.getPhotoPath();
+        this.photoPath = post.getPhoto().getPath();
         this.dateTime = post.getDateTime();
         this.numLikes = post.getLikes().size();
         this.user = new UserResponseDTO(post.getUser());
