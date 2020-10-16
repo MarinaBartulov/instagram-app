@@ -29,18 +29,6 @@ import java.io.IOException;
 public class AuthController {
 
     @Autowired
-    TokenUtils tokenUtils;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
     private AuthService authService;
 
 
@@ -48,20 +36,8 @@ public class AuthController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest,
                                                        HttpServletResponse response) throws AuthenticationException, IOException {
 
-        final Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
-                        authenticationRequest.getPassword()));
+        return new ResponseEntity(this.authService.login(authenticationRequest), HttpStatus.CREATED);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        User user = (User) authentication.getPrincipal();
-        if(!user.isActive()){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Your Instagram account is deactivated.");
-        }
-        String jwt = tokenUtils.generateToken(user.getUsername());
-        int expiresIn = tokenUtils.getExpiredIn();
-
-        return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
     }
 
     @PostMapping(value = "/signup")

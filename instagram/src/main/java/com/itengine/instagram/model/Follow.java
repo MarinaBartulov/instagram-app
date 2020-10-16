@@ -14,11 +14,11 @@ public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //@EmbeddedId
-    //private FollowId id;
     @ManyToOne
+    @JoinColumn(name = "follower_id")
     private User follower;
     @ManyToOne
+    @JoinColumn(name = "followed_id")
     private User followed;
     private LocalDateTime dateTimeFollowed;
 
